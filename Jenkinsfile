@@ -43,9 +43,7 @@ pipeline{
                                  }
                              }
                           } 
-                  stage('Mvn Package'){
-               sh 'mvn clean package'
-               }
+               
          }
            
 }
