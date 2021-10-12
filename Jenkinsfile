@@ -21,7 +21,11 @@ pipeline{
                      echo "Hello everyone"
                      }
                }
-               	stage('Four'){
+               
+               stage('Four'){
+               sh 'mvn clean package'
+               }
+               	stage('Five'){
                              parallel{
                                  stage('Unit Test'){
                                             steps{
