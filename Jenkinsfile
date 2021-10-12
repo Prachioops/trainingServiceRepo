@@ -22,10 +22,8 @@ pipeline{
                      }
                }
                
-               stage('Four'){
-               sh 'mvn clean package'
-               }
-               	stage('Five'){
+               
+               	stage('Four'){
                              parallel{
                                  stage('Unit Test'){
                                             steps{
@@ -45,6 +43,9 @@ pipeline{
                                  }
                              }
                           } 
+                  stage('Five'){
+               sh 'mvn clean package'
+               }
          }
            
 }
