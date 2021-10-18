@@ -1,5 +1,5 @@
 pipeline{
-       agent any
+       agent { label ' linux '}
        options {
         buildDiscarder(logRotator(numToKeepStr: '5'))
        }
@@ -16,7 +16,7 @@ pipeline{
                }
           stage('Login'){
            steps{
-              bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+              bat 'docker login -u prachi918'
                  }
               }
           stage('Push'){
