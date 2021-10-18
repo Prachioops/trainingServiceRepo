@@ -18,7 +18,7 @@ pipeline {
 
             steps { 
 
-                git 'https://github.com/prachioops/trainingServiceRepo.git' 
+                git 'https://github.com/Prachioops/trainingServiceRepo.git' 
 
             }
 
