@@ -1,69 +1,38 @@
-pipeline { 
-
-    environment { 
-
-        registry = "prachi918/gc" 
-
-        registryCredential = 'prachi918_dockerhub' 
-
-        dockerImage = '' 
-
-    }
-
-    agent any 
-
-    stages { 
-
-        stage('Cloning our Git') { 
-
-            steps { 
-
-                git 'https://github.com/Prachioops/trainingServiceRepo.git' 
-
+pipeline{
+       agent any
+       options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+       }
+       
+       environment{
+        DOCKERHUB_CREDENTIALS = credentials('prachi918-dockerhub')
+       }
+       stages {
+         stage('Build'){
+           steps{
+             bat 'docker build -t prachi918/gc:latest .'
+                       
+                 }
+               }
+          stage('Login'){
+           steps{
+              bat 'docker login -u prachi918-dockerhub'
+                 }
+              }
+          stage('Push'){
+           steps{
+              bat 'docker push prachi918/gc:latest'
+                  }
+               }
+               
             }
-
-        } 
-
-        stage('Building our image') { 
-
-            steps { 
-
-                script { 
-
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER" 
-
-                }
-
-            } 
-
-        }
-
-        stage('Deploy our image') { 
-
-            steps { 
-
-                script { 
-
-                    docker.withRegistry( '', registryCredential ) { 
-
-                        dockerImage.push() 
-
-                    }
-
-                } 
-
-            }
-
-        } 
-
-        stage('Cleaning up') { 
-
-            steps { 
-
-                bat "docker rmi $registry:$BUILD_NUMBER" 
-            }
-
-        } 
-    }
-
-}
+               	
+           post{
+            always {
+              bat 'docker logout'
+                
+             }
+           }
+         } 
+               
+  
