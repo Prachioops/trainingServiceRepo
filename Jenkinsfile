@@ -1,5 +1,5 @@
 pipeline{
-       agent { label 'linux'} 
+       agent any
        options {
         buildDiscarder(logRotator(numToKeepStr: '5'))
        }
@@ -11,7 +11,7 @@ pipeline{
                	stage('Build'){
                      steps{
                        sh 'docker build -t prachi918/gc:latest .'
-                       echo 'Hello'
+                       
                      }
                }
                	stage('Login'){
