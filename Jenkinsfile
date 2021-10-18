@@ -16,7 +16,7 @@ pipeline{
                }
           stage('Login'){
            steps{
-              bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login --u prachi918-dockerhub --password-stdin'
+              bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login --username prachi918-dockerhub --password-stdin'
                  }
               }
           stage('Push'){
