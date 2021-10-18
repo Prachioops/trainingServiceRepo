@@ -7,32 +7,32 @@ pipeline{
        environment{
         DOCKERHUB_CREDENTIALS = credentials('prachi918-dockerhub')
        }
-               stages {
-               	stage('Build'){
-                     steps{
-                       sh 'docker build -t prachi918/gc:latest .'
+       stages {
+         stage('Build'){
+           steps{
+             bat 'docker build -t prachi918/gc:latest .'
                        
-                     }
+                 }
                }
-               	stage('Login'){
-                     steps{
-                        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                     }
+          stage('Login'){
+           steps{
+              bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                 }
               }
-               	stage('Push'){
-                  steps{
-                  sh 'docker push prachi918/gc:latest'
+          stage('Push'){
+           steps{
+              bat 'docker push prachi918/gc:latest'
                   }
                }
                
-               }
+            }
                	
-               post{
-               always {
-                sh 'docker logout'
+           post{
+            always {
+              bat 'docker logout'
                 
-                 }
-              }
-          } 
+             }
+           }
+         } 
                
   
