@@ -1,49 +1,38 @@
 pipeline{
-       agent any 
+       agent { label 'linux'} 
+       options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+       }
+       
+       environment{
+        DOCKERHUB_CREDENTIALS = credentials('prachi918-dockerhub')
+       }
                stages {
-               	stage('One'){
+               	stage('Build'){
                      steps{
-                         echo 'Hello'
+                       sh 'docker build -t prachi918/gc:latest .'
+                       echo 'Hello'
                      }
                }
-               	stage('Two'){
+               	stage('Login'){
                      steps{
-                         input('Hello this is jenkins')
+                        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                      }
               }
-               	stage('Three'){
-                     when{
-                        not{
-                        branch"master"
-                        }
-                     }
-                     steps{
-                     echo "Hello everyone"
-                     }
+               	stage('Push'){
+                  steps{
+                  sh 'docker push prachi918/gc:latest'
+                  }
                }
                
+               }
+               	
+               post{
+               always {
+                sh 'docker logout'
+                
+                 }
+              }
+          } 
                
-               	stage('Four'){
-                             parallel{
-                                 stage('Unit Test'){
-                                            steps{
-                                            echo "Running the unit test..."
-                                          }
-                                 }
-                                 stage('Integration test'){
-                                     agent{
-                                       any{
-                                       reuseNode false
-                                       image 'ubuntu'
-                                       }
-                                     }
-                                     steps {
-                                     echo 'Running the integration test..'
-                                     }
-                                 }
-                             }
-                          } 
-               
-         }
-           
-}
+  
