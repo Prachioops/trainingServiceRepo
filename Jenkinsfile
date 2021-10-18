@@ -16,7 +16,7 @@ pipeline{
                }
           stage('Login'){
            steps{
-              bat 'docker login -u prachi918-dockerhub'
+              bat 'docker login -u prachi918-dockerhub -p f71a3a0e-a62a-4722-9049-8ea3d604ab3f'
                  }
               }
           stage('Push'){
