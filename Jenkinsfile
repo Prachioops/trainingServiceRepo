@@ -5,7 +5,8 @@ pipeline{
        }
        
        environment{
-        DOCKERHUB_CREDENTIALS = credentials('prachi918-dockerhub')
+        DOCKERHUB_CREDENTIALS_USR = 'prachi918-dockerhub'
+        DOCKERHUB_CREDENTIALS_PSW = 'f71a3a0e-a62a-4722-9049-8ea3d604ab3f'
        }
        stages {
          stage('Build'){
@@ -16,7 +17,7 @@ pipeline{
                }
           stage('Login'){
            steps{
-              bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login --username "$DOCKERHUB_CREDENTIALS_USR" --password-stdin'
+              bat 'echo "$DOCKERHUB_CREDENTIALS_PSW" | docker login --u "$DOCKERHUB_CREDENTIALS_USR" --password-stdin'
                  }
               }
           stage('Push'){
